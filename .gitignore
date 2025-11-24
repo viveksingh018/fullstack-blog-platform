@@ -1,0 +1,5 @@
+# Dependency folders (server and client)
+node_modules/
+
+# Environment Variables (CRITICAL)
+.env
