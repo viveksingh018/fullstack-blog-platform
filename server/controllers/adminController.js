@@ -18,18 +18,20 @@ export const adminLogin = async (req, res) => {
 
 }
 
+// ✅ FIXED: Mongoose .sort() used correctly
 export const getAllBlogsAdmin = async (req, res) => {
   try {
-    const blogs = (await Blog.find({})).toSorted({ createdAt: -1 });
+    const blogs = await Blog.find({}).sort({ createdAt: -1 }); 
     res.json({ success: true, blogs })
   } catch (error) {
     res.json({ success: false, message: error.message })
   }
 }
 
+// ✅ FIXED: Mongoose .sort() used correctly
 export const getAllComments = async (req, res) => {
   try {
-    const comments = (await Comment.find({}).populate("blog")).toSorted({ createdAt: -1 });
+    const comments = await Comment.find({}).populate("blog").sort({ createdAt: -1 });
     res.json({ success: true, comments })
   } catch (error) {
     res.json({ success: false, mesage: error.mesage })
@@ -38,10 +40,14 @@ export const getAllComments = async (req, res) => {
 
 export const getDashboard = async (req, res) => {
   try {
-    const recentBlogs = (await Blog.find({})).sort({ createdAt: -1 }).limit(5);
+    // ✅ FIXED: Removed unnecessary 'await' grouping and fixed sort
+    const recentBlogs = await Blog.find({}).sort({ createdAt: -1 }).limit(5);
+
     const blogs = await Blog.countDocuments();
     const comments = await Comment.countDocuments();
-    const drafts = await blogs.countDocuments({ isPublished: false });
+    
+    // ✅ FIXED: 'blogs' variable upar number hai, isliye 'Blog' model use kiya
+    const drafts = await Blog.countDocuments({ isPublished: false }); 
 
     const dashboardData = {
       blogs, comments, drafts, recentBlogs
