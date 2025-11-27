@@ -1,44 +1,53 @@
-import { Children, createContext, useContext, useEffect, useState } from "react"
-import axios from 'axios';
+import { createContext, useContext, useEffect, useState } from "react"
+import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import toast from "react-hot-toast";
+import toast from "react-hot-toast"
 
+// Set backend base URL
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL
 
-axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
-
-
-const AppContext = createContext();
+const AppContext = createContext()
 
 export const AppProvider = ({ children }) => {
 
   const navigate = useNavigate()
 
+  // Global states
   const [token, setToken] = useState(null)
   const [blogs, setBlogs] = useState([])
   const [input, setInput] = useState("")
 
+  // Fetch all blogs
   const fetchBlogs = async () => {
     try {
-      const { data } = await axios.get('/api/blog/all');
+      const { data } = await axios.get('/api/blog/all')
       data.success ? setBlogs(data.blogs) : toast.error(data.message)
-
     } catch (error) {
       toast.error(error.message)
     }
   }
 
+  // Load blogs + restore token on app start
   useEffect(() => {
-    fetchBlogs();
-    const token = localStorage.getItem('token')
-    if (token) {
-      setToken(token)
-      axios.defaults.headers.common['Authorization'] = `${token}`;
+    fetchBlogs()
+
+    const savedToken = localStorage.getItem('token')
+    if (savedToken) {
+      setToken(savedToken)
+      axios.defaults.headers.common['Authorization'] = savedToken
     }
   }, [])
 
-
+  // Shared context values
   const value = {
-    axios, navigate, token, setToken, blogs, setBlogs, input, setInput
+    axios,
+    navigate,
+    token,
+    setToken,
+    blogs,
+    setBlogs,
+    input,
+    setInput
   }
 
   return (
@@ -48,6 +57,4 @@ export const AppProvider = ({ children }) => {
   )
 }
 
-export const useAppContext = () => {
-  return useContext(AppContext)
-};
+export const useAppContext = () => useContext(AppContext)

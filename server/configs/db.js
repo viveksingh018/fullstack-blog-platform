@@ -1,15 +1,19 @@
-import mongoose, { connect } from "mongoose";
+import mongoose from "mongoose";
 
-
-const connectDB = async ()=> {
-
+// MongoDB connection function
+const connectDB = async () => {
   try {
-      mongoose.connection.on('connected', ()=> console.log("Database Connected"))
-      await mongoose.connect(`${process.env.MONGODB_URI}/quickblog`)
+    // Log once connection is established
+    mongoose.connection.on("connected", () =>
+      console.log("Database Connected")
+    );
+
+    // Connect to MongoDB database
+    await mongoose.connect(`${process.env.MONGODB_URI}/quickblog`);
+
   } catch (error) {
     console.log(error.message);
   }
-
-}
+};
 
 export default connectDB;

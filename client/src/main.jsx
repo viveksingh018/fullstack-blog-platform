@@ -4,10 +4,12 @@ import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import { AppProvider } from './context/AppContext.jsx'
 
+// React App Entry Point
 createRoot(document.getElementById('root')).render(
-  <BrowserRouter >
+  <BrowserRouter>
+    {/* Global App Context Provider */}
     <AppProvider>
       <App />
     </AppProvider>
-  </BrowserRouter>,
+  </BrowserRouter>
 )

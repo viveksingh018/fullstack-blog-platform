@@ -5,6 +5,7 @@ import BlogList from '../components/BlogList'
 import Newsletter from '../components/Newsletter'
 import Footer from '../components/Footer'
 
+// Main homepage layout
 const Home = () => {
   return (
     <>
