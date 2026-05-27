@@ -25,17 +25,21 @@ const AddBlog = () => {
   // Generate blog content using AI
   const generateContent = async () => {
     if (!title) return toast.error('Please enter a title')
+    if (!subTitle) return toast.error('Please enter a subtitle')
 
     try {
       setLoading(true)
-      const { data } = await axios.post('/api/blog/generate', { prompt: title })
+
+      const prompt = `Title: ${title} Subtitle: ${subTitle}`
+
+      const { data } = await axios.post('/api/blog/generate', { prompt })
 
       if (data.success) {
+        // Backend se Markdown aa raha hai -> HTML me convert karke Quill me daalo
         quillRef.current.root.innerHTML = parse(data.content)
       } else {
         toast.error(data.message)
       }
-
     } catch (error) {
       toast.error(error.message)
     } finally {
@@ -46,7 +50,7 @@ const AddBlog = () => {
   // Add blog submit
   const onSubmitHandler = async (e) => {
     e.preventDefault()
-    
+
     try {
       setIsAdding(true)
 
@@ -96,17 +100,17 @@ const AddBlog = () => {
         {/* Thumbnail upload */}
         <p>Upload thumbnail</p>
         <label htmlFor="image">
-          <img 
-            src={!image ? assets.upload_area : URL.createObjectURL(image)} 
-            alt="" 
-            className='mt-2 h-16 rounded cursor-pointer' 
+          <img
+            src={!image ? assets.upload_area : URL.createObjectURL(image)}
+            alt=""
+            className='mt-2 h-16 rounded cursor-pointer'
           />
-          <input 
-            onChange={(e) => setImage(e.target.files[0])} 
-            type="file" 
-            id='image' 
-            hidden 
-            required 
+          <input
+            onChange={(e) => setImage(e.target.files[0])}
+            type="file"
+            id='image'
+            hidden
+            required
           />
         </label>
 
@@ -181,7 +185,7 @@ const AddBlog = () => {
         </div>
 
         {/* Submit btn */}
-        <button 
+        <button
           disabled={isAdding}
           type='submit'
           className='mt-8 w-40 h-10 bg-primary text-white rounded cursor-pointer text-sm'

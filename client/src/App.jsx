@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import Blog from './pages/Blog'
@@ -13,28 +13,34 @@ import { Toaster } from 'react-hot-toast'
 import { useAppContext } from './context/AppContext'
 
 const App = () => {
-
   const { token } = useAppContext()
 
+  // Theme Sync on Load
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme')
+    if (savedTheme === 'dark') {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [])
+
   return (
-    <div>
-      {/* Toast Notifications */}
-      <Toaster />
-
+    <div className="min-h-screen bg-white dark:bg-[#0f0f17] text-black dark:text-gray-100 transition-colors duration-300">
+      <Toaster position="top-center" />
+      
       <Routes>
-
         {/* Public Routes */}
-        <Route path='/' element={<Home />} />
-        <Route path='/blog/:id' element={<Blog />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/blog/:id" element={<Blog />} />
 
-        {/* Protected Admin Routes */}
-        <Route path='/admin' element={token ? <Layout /> : <Login />}>
+        {/* Admin Routes */}
+        <Route path="/admin" element={token ? <Layout /> : <Login />}>
           <Route index element={<Dashboard />} />
-          <Route path='addBlog' element={<AddBlog />} />
-          <Route path='listBlog' element={<ListBlog />} />
-          <Route path='comments' element={<Comments />} />
+          <Route path="addBlog" element={<AddBlog />} />
+          <Route path="listBlog" element={<ListBlog />} />
+          <Route path="comments" element={<Comments />} />
         </Route>
-
       </Routes>
     </div>
   )

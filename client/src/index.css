@@ -1,10 +1,11 @@
-/* Import Google Font + Tailwind */
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 @import "tailwindcss";
 
-/* Global font */
-* {
-    font-family: "Outfit", sans-serif;
+@variant dark (&:where(.dark, .dark *));
+
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: "Outfit", sans-serif;
 }
 
 /* Hide scrollbar */
@@ -12,84 +13,105 @@
   display: none;
 }
 
-/* Custom Tailwind theme color */
+/* Custom Theme Color */
 @theme {
   --color-primary: #5044E5;
 }
 
-/* Rich text (blog content) styling */
-.rich-text { 
-  font-size: 15px;  
+/* ==================== GOOGLE TRANSLATE CLEANUP ==================== */
+.goog-te-banner-frame.skiptranslate, 
+.goog-banner-frame, 
+#goog-gt-tt {
+  display: none !important;
 }
 
-.rich-text p { 
-  margin-bottom: 16px; 
-  color: #292929; 
+body {
+  top: 0px !important;
 }
 
-/* Headings inside blog content */
-.rich-text h1 { 
-  font-size: 36px; 
-  font-weight: 700; 
-  color: #252525 !important; 
-  margin: 32px 0;
+#google_translate_element {
+  display: none !important;
 }
 
-.rich-text h2 { 
-  font-size: 22px; 
-  font-weight: 700; 
-  color: #252525 !important; 
-  margin: 24px 0; 
+.goog-text-highlight {
+  background-color: transparent !important;
+  box-shadow: none !important;
 }
 
-.rich-text h3 { 
-  font-size: 18px; 
-  font-weight: 600; 
-  color: #333333 !important; 
-  margin: 20px 0; 
+/* ==================== DARK MODE IMPROVEMENTS ==================== */
+.dark {
+  --bg: #0f0f17;
+  --card: #171721;
+  --text: #e2e8f0;
+  --text-secondary: #94a3b8;
 }
 
-.rich-text h4 { 
-  font-size: 16px; 
-  font-weight: 500; 
-  color: #444444 !important; 
-  margin: 16px 0; 
+.min-h-screen {
+  background-color: #ffffff;
 }
 
-.rich-text h5 { 
-  font-size: 14px; 
-  font-weight: 400; 
-  color: #555555 !important; 
-  margin: 12px 0; 
+.dark .min-h-screen {
+  background-color: #0f0f17 !important;
 }
 
-.rich-text h6 { 
-  font-size: 12px; 
-  font-weight: 400; 
-  color: #666666 !important; 
-  margin: 8px 0; 
+/* Rich Text Content - Better Readability */
+.rich-text {
+  font-size: 15.5px;
+  line-height: 1.75;
 }
 
-.rich-text strong { 
-  font-weight: 700; 
+.rich-text p,
+.rich-text li,
+.rich-text div {
+  margin-bottom: 16px;
+  color: #292929;
 }
 
-/* Ordered & unordered list styling */
-.rich-text ol { 
-  margin-left: 30px; 
-  list-style-type: decimal; 
+.dark .rich-text p,
+.dark .rich-text li,
+.dark .rich-text div {
+  color: #e2e8f0 !important;
 }
 
-.rich-text ul { 
-  margin-left: 30px; 
-  list-style-type: disc; 
+/* Headings */
+.rich-text h1 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 32px 0 20px 0;
 }
 
-.rich-text li { 
-  margin-bottom: 8px; 
+.dark .rich-text h1 { color: #ffffff !important; }
+
+.rich-text h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 28px 0 16px 0;
 }
 
-/* Blog content hyperlinks */
-.rich-text a { 
-  color: #007AFF; 
+.dark .rich-text h2 { color: #f1f5f9 !important; }
+
+.rich-text h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #374151;
+  margin: 24px 0 14px 0;
+}
+
+.dark .rich-text h3 { color: #e2e8f0 !important; }
+
+/* Links */
+.rich-text a {
+  color: #5044E5;
+  text-decoration: underline;
+}
+
+/* Better Card Background in Dark Mode */
+.dark .bg-white,
+.dark article,
+.dark .card,
+.dark .prose {
+  background-color: #171721 !important;
+  border-color: #27272a !important;
 }
